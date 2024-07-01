@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Post;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
 
@@ -12,45 +13,12 @@ Route::get('/about', function () {
 });
 
 Route::get('/posts', function () {
-    return view('posts', ['title' => 'Blog', 'posts' => [
-        [
-            'id' => 1,
-            'slug' => 'judul-artikel-1',
-            'title' => 'Judul Artikel 1',
-            'author' => 'Irfan Adi',
-            'body' => 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Necessitatibus neque iste, assumenda earum excepturi nihil veritatis! Amet esse totam repellat illum eius ex, nobis, omnis dolorum voluptatum molestiae suscipit sed?',
-        ],
-        [
-            'id' => 2,
-            'slug' => 'judul-artikel-2',
-            'title' => 'Judul Artikel 2',
-            'author' => 'Irfan Adi',
-            'body' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi voluptas illo alias voluptatem. Officiis, ea quas molestias velit quibusdam soluta eaque, totam corporis adipisci quasi magni ipsam nihil distinctio explicabo?',
-        ]
-    ]]);
+    return view('posts', ['title' => 'Blog', 'posts' => Post::all()]);
 });
 
 Route::get('/posts/{slug}', function ($slug) {
-    $posts = [
-        [
-            'id' => 1,
-            'slug' => 'judul-artikel-1',
-            'title' => 'Judul Artikel 1',
-            'author' => 'Irfan Adi',
-            'body' => 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Necessitatibus neque iste, assumenda earum excepturi nihil veritatis! Amet esse totam repellat illum eius ex, nobis, omnis dolorum voluptatum molestiae suscipit sed?',
-        ],
-        [
-            'id' => 2,
-            'slug' => 'judul-artikel-2',
-            'title' => 'Judul Artikel 2',
-            'author' => 'Irfan Adi',
-            'body' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi voluptas illo alias voluptatem. Officiis, ea quas molestias velit quibusdam soluta eaque, totam corporis adipisci quasi magni ipsam nihil distinctio explicabo?',
-        ]
-    ];
 
-    $post = Arr::first($posts, function ($post) use ($slug) {
-        return $post['slug'] == $slug;
-    });
+    $post = Post::find($slug);
 
     return view('post', ['title' => 'Single Post', 'post' => $post]);
 });
